@@ -161,17 +161,20 @@
 	 crossorigin="anonymous"></script>
 
 	<script type="text/javascript">
+		// On survey submit button click
 		$('#submit').on('click', function (e) {
+			// don't refresh page
 			e.preventDefault();
-
+			// check that the form has values for each field
 			function validateForm() {
 				var valid = true;
 				$('.form-control').each(function () {
+					// if a form input field is empty, set valid to false
 					if ($(this).val() === '') {
 						valid = false;
 					}
 				});
-
+				// if a survey answer is empty, set valid to false
 				$('.chosen-select').each(function () {
 					if ($(this).val() === '') {
 						valid = false;
@@ -179,8 +182,9 @@
 				});
 				return valid;
 			};
-
+			// if validateForm returns a value "valid"
 			if (validateForm()) {
+				// set surveyResults to the values of the survey answers
 				var surveyResults = {
 					name: $('#name').val(),
 					photo: $('#photo').val(),
@@ -198,15 +202,16 @@
 					]
 				};
 
-				// AJAX postfriends API.
-				$.post('/api/friends', surveyResults, function (data) {
-
-					$('#match-name').text(data.name);
-					$('#match-img').attr('src', data.photo);
+				// use AJAX to post the survey results to the api/friends route
+				$.post('/api/friends', surveyResults, function (friend) {
+					// set the modal elements to the returned friend's info
+					$('#match-name').text(friend.name);
+					$('#match-img').attr('src', friend.photo);
 					$('#results-modal').modal('toggle');
 
 				});
 			} else {
+				// if form is not validated, alert the user
 				alert('Please fill out required fields.');
 			};
 		});

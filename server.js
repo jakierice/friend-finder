@@ -17,11 +17,11 @@ app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
 
-// request data from other URLs.
+// initialize the routes
 require("./app/routing/apiRoutes")(app);
 require("./app/routing/htmlRoutes")(app);
 
-// starts server and log in terminal
+// list on PORT
 app.listen(PORT, function () {
 	console.log("App listening on PORT: " + PORT);
 });
